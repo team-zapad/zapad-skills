@@ -24,5 +24,6 @@ Prisma was chosen for DX (Eloquent-like ergonomics) over Drizzle's lighter footp
 
 ## Database
 
-- PostgreSQL on RDS `db.m7g.large` Multi-AZ, region `sa-east-1`.
-- The DB sits behind RDS Proxy — confirm this before the first deploy.
+- PostgreSQL on RDS, region `sa-east-1`.
+- **The DB sits behind RDS Proxy** — this is the invariant; confirm it before the first deploy.
+- Instance class and Multi-AZ are **per-project sizing decisions**, not house defaults. Start small (e.g. a `t4g`/`m7g` class matched to load) and enable Multi-AZ for production or anything that can't tolerate failover downtime. Don't pin a fixed instance size into every project.

@@ -25,7 +25,7 @@ This file is the index: the manifest and the non-negotiable invariants live here
 | API layer | Colocated server functions | `createServerFn` — **no separate API tier** |
 | Validation | Zod | single source of truth for inputs, forms, env |
 | ORM | Prisma 7 | `compilerBuild = "small"`, singleton client |
-| Database | PostgreSQL | RDS `db.m7g.large` Multi-AZ, `sa-east-1`, behind RDS Proxy |
+| Database | PostgreSQL on RDS | behind RDS Proxy, region `sa-east-1`; instance class & Multi-AZ are per-project sizing (see `references/data.md`) |
 | Auth | Better Auth | self-hosted, Entra ID (OIDC) |
 | Forms | TanStack Form | Zod validators |
 | Lint / format | Biome | all-in-one, replaces ESLint + Prettier |
