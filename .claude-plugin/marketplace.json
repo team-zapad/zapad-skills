@@ -1,0 +1,17 @@
+{
+  "name": "zapad-skills",
+  "owner": {
+    "name": "team-zapad"
+  },
+  "metadata": {
+    "description": "Zapad's shared Claude Code skills.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "zapad-js-stack",
+      "source": "./plugins/zapad-js-stack",
+      "description": "The canonical Zapad TypeScript web stack: TanStack Start on AWS serverless (Lambda), Prisma + Postgres, Better Auth, MUI. Defaults and invariants for scaffolding and architecture decisions."
+    }
+  ]
+}

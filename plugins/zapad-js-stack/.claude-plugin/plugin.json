@@ -1,0 +1,17 @@
+{
+  "name": "zapad-js-stack",
+  "description": "The canonical Zapad TypeScript web stack: TanStack Start on AWS serverless (Lambda), Prisma + Postgres, Better Auth, MUI. Defaults and non-negotiable invariants for scaffolding new apps and making architecture decisions.",
+  "version": "1.0.0",
+  "author": {
+    "name": "team-zapad"
+  },
+  "keywords": [
+    "typescript",
+    "tanstack-start",
+    "aws-lambda",
+    "prisma",
+    "better-auth",
+    "sst",
+    "architecture"
+  ]
+}
