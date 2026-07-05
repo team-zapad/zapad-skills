@@ -14,6 +14,7 @@ Then install the skill into any project:
 
 ```
 /plugin install zapad-js-stack
+/plugin install zapad-laravel-backend
 ```
 
 Update later with `/plugin marketplace update zapad-skills`.
@@ -38,6 +39,21 @@ for any layer, or making an architecture decision — defaulting to the house ch
 
 See [`plugins/zapad-js-stack/skills/zapad-js-stack/SKILL.md`](plugins/zapad-js-stack/skills/zapad-js-stack/SKILL.md).
 
+### `zapad-laravel-backend`
+
+Zapad's canonical Laravel backend architecture: single-action controllers, an Actions layer for
+business logic, Form Requests for validation + authorization, domain exceptions, and Pest testing
+conventions. Bundled as four separate skills so each triggers only on its own concern:
+
+| | |
+|---|---|
+| `project-structure` | Where every component type lives and how it's named — a lookup skill, not a workflow |
+| `coding-guidelines` | How to write internals: thin controllers, pure Actions, error handling, naming, duplication/abstraction rules, Pint + Larastan gates |
+| `new-feature` | The ordered, end-to-end workflow for building a full feature, from migration to tests |
+| `testing` | Pest conventions — what to test at each layer, fakes, worked examples |
+
+See [`plugins/zapad-laravel-backend/skills/`](plugins/zapad-laravel-backend/skills/).
+
 ## Repo layout
 
 ```
@@ -48,4 +64,11 @@ plugins/
     skills/zapad-js-stack/          # the skill
       SKILL.md
       references/
+  zapad-laravel-backend/
+    .claude-plugin/plugin.json      # plugin manifest
+    skills/
+      project-structure/SKILL.md
+      coding-guidelines/SKILL.md
+      new-feature/SKILL.md
+      testing/SKILL.md
 ```
