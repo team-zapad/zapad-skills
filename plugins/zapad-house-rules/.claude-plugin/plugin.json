@@ -1,0 +1,14 @@
+{
+  "name": "zapad-house-rules",
+  "description": "Stack-agnostic behavioral guidelines that sit on top of every other Zapad skill: think before coding, simplicity first, surgical changes, goal-driven execution with verify loops. Injected at every session start via a hook, independent of which stack plugin (Laravel, JS) is installed.",
+  "version": "1.0.0",
+  "author": {
+    "name": "team-zapad"
+  },
+  "keywords": [
+    "house-rules",
+    "behavioral-guidelines",
+    "simplicity",
+    "code-review"
+  ]
+}

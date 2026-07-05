@@ -28,6 +28,7 @@ These are the internal-quality rules for this codebase. `laravel-project-structu
 Laravel core is the style guide. If unsure how to name something, check how Laravel or a first-party package names the equivalent.
 
 - **Classes**: `PascalCase`. Models are singular nouns (`Conversation`, never `Conversations`); Actions/Jobs are verb+noun (`SendMessage`, `ProcessMessageAttachments`).
+- **Domain-prefix generic-suffix classes, don't prefix specific ones.** Verb-named or resource-named classes (Actions, Controllers, FormRequests, Exceptions) are already unique enough that their namespace disambiguates them — never prefix those with the domain (`Chat/StoreMessageController`, not `Chat/ChatStoreMessageController`). But catch-all architectural nouns — `Service`, `Repository`, `Manager` — recur in every domain folder and collide in IDE fuzzy-search (Cmd+P/Cmd+O) when unprefixed, so those get the domain folded into the name: `CheckoutSessionService`, not `Session/SessionService`. This is the same reasoning that already gives Integration clients their name — `WhatsAppClient`, never a bare `Client` (see the Naming & Location Reference in `laravel-project-structure`).
 - **Methods and variables**: `camelCase` — `sendMessage()`, `$conversationId`. Never snake_case, never Hungarian-notation prefixes.
 - **Database**: `snake_case` columns, plural `snake_case` table names (`conversation_participants`). Let Laravel infer the table name from the model; don't set `$table` unless it truly can't be inferred.
 - **Booleans**: prefix `is`/`has`/`can`/`should` — `isArchived`, `hasParticipants`. A bare adjective as a method name (`archived()`) is ambiguous with an accessor and should be avoided.
@@ -78,6 +79,34 @@ These are checkable rules, not judgment calls. Apply them literally.
 - Receives Eloquent models and primitives — **never** the `$request` object. This keeps Actions callable from console commands, jobs, and tests without an HTTP context.
 - No authorization logic inside an Action — authorization is a FormRequest/Policy concern.
 - Signals failure exclusively by throwing a domain exception — never `null`, `false`, or an empty collection to mean "didn't work."
+- No base class or interface for Actions — a plain `final` class per rule 7. Nothing is shared through inheritance; shared behavior (auth, validation, transactions) is composed via constructor collaborators, not a parent class.
+
+### Composing Actions
+
+An Action may need another Action's logic as a sub-step (e.g. creating an order also needs to notify someone). This is a normal collaborator, covered by rule 10 (Duplication and abstraction): constructor-inject the other Action and call its `handle()` — never instantiate it inline.
+
+```php
+final readonly class CreateOrder
+{
+    public function __construct(
+        private NotifyOrderCreated $notifyOrderCreated,
+    ) {}
+
+    public function handle(Cart $cart): Order
+    {
+        return DB::transaction(function () use ($cart) {
+            $order = Order::create([...]);
+
+            $this->notifyOrderCreated->handle($order);
+
+            return $order;
+        });
+    }
+}
+```
+
+- The outer Action owns the transaction; a nested Action never opens its own `DB::transaction()`.
+- A `DomainException` thrown by the nested Action is **not** caught by the calling Action — let it bubble to the global handler (see Error handling below). The surrounding transaction rolls back automatically because the exception propagates out of the `DB::transaction()` closure.
 
 ## Form Requests — validation + authorization together
 
@@ -164,3 +193,5 @@ Common fixes when Larastan complains:
 - Nullable value used without a check → narrow it explicitly rather than suppressing.
 
 If Pint and Larastan disagree with a rule in this file, this file wins for architectural decisions (where logic lives); the tools win for mechanical style and type-safety issues.
+
+These same two commands (plus the test suite) should also run in CI, independent of whether the change was made with Claude Code — the plugin's local hook only fires if a dev is actually using it. Copy `templates/laravel-quality-gate.yml` from this plugin into the project's `.github/workflows/` once per repo.
