@@ -1,0 +1,34 @@
+# Copy into each Laravel project as .github/workflows/laravel-quality-gate.yml
+#
+# The CI backstop: catches drift regardless of whether a PR was written with
+# Claude Code, another tool, or by hand. The local PostToolUse hook
+# (scripts/lint.sh) and the new-feature skill's step 11 depend on the AI
+# actually following instructions — this doesn't depend on that at all.
+name: Laravel Quality Gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - run: composer install --no-interaction --prefer-dist
+
+      - name: Pint (formatting)
+        run: vendor/bin/pint --test
+
+      - name: Larastan (static analysis)
+        run: vendor/bin/phpstan analyse
+
+      - name: Tests
+        run: cp .env.example .env && php artisan key:generate && php artisan test

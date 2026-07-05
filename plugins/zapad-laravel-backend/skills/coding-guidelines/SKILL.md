@@ -193,3 +193,5 @@ Common fixes when Larastan complains:
 - Nullable value used without a check → narrow it explicitly rather than suppressing.
 
 If Pint and Larastan disagree with a rule in this file, this file wins for architectural decisions (where logic lives); the tools win for mechanical style and type-safety issues.
+
+These same two commands (plus the test suite) should also run in CI, independent of whether the change was made with Claude Code — the plugin's local hook only fires if a dev is actually using it. Copy `templates/laravel-quality-gate.yml` from this plugin into the project's `.github/workflows/` once per repo.

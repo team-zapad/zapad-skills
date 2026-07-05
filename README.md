@@ -20,6 +20,53 @@ Then install the skill into any project:
 
 Update later with `/plugin marketplace update zapad-skills`.
 
+## Org-wide rollout
+
+The manual install above is per-developer, per-project. For a team, that's 4 commands someone has
+to remember to run every time — the two options below make it automatic instead.
+
+**Tier 1 — per-project, no admin access needed.**
+Each dev still adds the marketplace once, ever, per machine (`/plugin marketplace add
+team-zapad/zapad-skills`). Then commit this to every Zapad project's `.claude/settings.json`:
+
+```json
+{
+  "enabledPlugins": {
+    "zapad-house-rules@zapad-skills": true,
+    "zapad-laravel-backend@zapad-skills": true,
+    "zapad-js-stack@zapad-skills": true
+  }
+}
+```
+
+Anyone who clones the project and opens it in Claude Code gets all three plugins active —
+no per-project `/plugin install`.
+
+**Tier 2 — org-enforced, zero developer action.**
+Claude Code supports a managed settings file that a developer's own settings cannot override.
+Deploy it via MDM (Jamf/Kandji/Intune/GPO) or a new-laptop setup script, to:
+- macOS: `/Library/Application Support/ClaudeCode/managed-settings.json`
+- Linux/WSL: `/etc/claude-code/managed-settings.json`
+- Windows: `C:\Program Files\ClaudeCode\managed-settings.json`
+
+```json
+{
+  "extraKnownMarketplaces": [
+    { "name": "zapad-skills", "source": { "type": "github", "repo": "team-zapad/zapad-skills", "ref": "main" } }
+  ],
+  "enabledPlugins": [
+    { "marketplace": "zapad-skills", "plugin": "zapad-house-rules" },
+    { "marketplace": "zapad-skills", "plugin": "zapad-laravel-backend" },
+    { "marketplace": "zapad-skills", "plugin": "zapad-js-stack" }
+  ]
+}
+```
+
+This is the actual one-click (zero-click) install: every dev, every project, every machine, all
+Zapad conventions active from the first `claude` command, with no opt-in step to forget. An
+optional `strictKnownMarketplaces` field can also block devs from adding unapproved marketplaces
+— left out here since that's a bigger policy call than "install our skills."
+
 ## Skills
 
 ### `zapad-house-rules`
@@ -68,6 +115,12 @@ a `.php` file right after it's edited, active automatically once the plugin is i
 `.claude/settings.json` editing required. It's a fast per-file check, not a substitute for
 `new-feature`'s step 11 (the real gate before calling a feature done).
 
+All of the above only fires if a dev is actually using Claude Code with this plugin installed.
+[`templates/laravel-quality-gate.yml`](plugins/zapad-laravel-backend/templates/laravel-quality-gate.yml)
+is the backstop that doesn't depend on that — a GitHub Actions workflow (Pint + Larastan + tests)
+to copy into each Laravel project's `.github/workflows/` once, so every PR gets checked
+regardless of how it was written.
+
 See [`plugins/zapad-laravel-backend/skills/`](plugins/zapad-laravel-backend/skills/).
 
 ## Repo layout
@@ -95,4 +148,5 @@ plugins/
       conformance-review/SKILL.md
     hooks/hooks.json                  # auto-runs Pint + Larastan after editing a .php file
     scripts/lint.sh                   # the script hooks.json calls
+    templates/laravel-quality-gate.yml # CI backstop, copy into a project's .github/workflows/
 ```
