@@ -12,6 +12,26 @@ if [[ -x vendor/bin/pint ]]; then
   vendor/bin/pint "$FILE_PATH" >/dev/null 2>&1
 fi
 
+# Controller <-> Action mirror (project-structure "golden rule": Actions/{Domain}
+# mirrors Controllers/{Domain} 1:1). Checks the mirrored *domain folder* exists,
+# not an exact filename — the controller and action verbs legitimately differ
+# (StoreProductQuestionnaireController <-> SaveProductQuestionnaire). Warn-only:
+# never blocks, since an action-less route-model-bound controller is valid.
+case "$FILE_PATH" in
+  */app/Http/Controllers/*Controller.php)
+    REL=${FILE_PATH##*/app/Http/Controllers/}; MIRROR_ROOT="app/Actions"; MIRROR_KIND="Action" ;;
+  */app/Actions/*.php)
+    REL=${FILE_PATH##*/app/Actions/}; MIRROR_ROOT="app/Http/Controllers"; MIRROR_KIND="Controller" ;;
+  *)
+    REL="" ;;
+esac
+if [[ -n "$REL" && "$REL" == */* ]]; then
+  DOMAIN_DIR=${REL%/*}
+  if ! ls "${MIRROR_ROOT}/${DOMAIN_DIR}"/*.php >/dev/null 2>&1; then
+    echo "warning: ${REL} has no matching ${MIRROR_KIND} in ${MIRROR_ROOT}/${DOMAIN_DIR}/ — project-structure golden rule: Actions/{Domain} mirrors Controllers/{Domain} 1:1." >&2
+  fi
+fi
+
 if [[ -x vendor/bin/phpstan ]]; then
   ERRORS=$(vendor/bin/phpstan analyse "$FILE_PATH" --no-progress --error-format=raw 2>&1)
   if [[ $? -ne 0 ]]; then
