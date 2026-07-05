@@ -13,6 +13,7 @@ Add the marketplace once (per machine):
 Then install the skill into any project:
 
 ```
+/plugin install zapad-house-rules
 /plugin install zapad-js-stack
 /plugin install zapad-laravel-backend
 ```
@@ -20,6 +21,15 @@ Then install the skill into any project:
 Update later with `/plugin marketplace update zapad-skills`.
 
 ## Skills
+
+### `zapad-house-rules`
+
+Stack-agnostic behavioral guidelines, independent of any specific tech stack: think before coding,
+simplicity first, surgical changes, goal-driven execution with verify loops. Delivered via a
+`SessionStart` hook (`hooks/hooks.json` + `scripts/inject-house-rules.sh`) that injects
+[`house-rules.md`](plugins/zapad-house-rules/house-rules.md) into context at the start of every
+session — active regardless of which stack plugin is also installed, no per-project CLAUDE.md
+editing required.
 
 ### `zapad-js-stack`
 
@@ -43,7 +53,7 @@ See [`plugins/zapad-js-stack/skills/zapad-js-stack/SKILL.md`](plugins/zapad-js-s
 
 Zapad's canonical Laravel backend architecture: single-action controllers, an Actions layer for
 business logic, Form Requests for validation + authorization, domain exceptions, and Pest testing
-conventions. Bundled as four separate skills so each triggers only on its own concern:
+conventions. Bundled as five separate skills so each triggers only on its own concern:
 
 | | |
 |---|---|
@@ -51,6 +61,12 @@ conventions. Bundled as four separate skills so each triggers only on its own co
 | `coding-guidelines` | How to write internals: thin controllers, pure Actions, error handling, naming, duplication/abstraction rules, Pint + Larastan gates |
 | `new-feature` | The ordered, end-to-end workflow for building a full feature, from migration to tests |
 | `testing` | Pest conventions — what to test at each layer, fakes, worked examples |
+| `conformance-review` | Audits an existing codebase against the other four skills' rules and produces a prioritized refactor punch list |
+
+Also ships a `PostToolUse` hook (`hooks/hooks.json` + `scripts/lint.sh`): runs Pint and Larastan on
+a `.php` file right after it's edited, active automatically once the plugin is installed — no
+`.claude/settings.json` editing required. It's a fast per-file check, not a substitute for
+`new-feature`'s step 11 (the real gate before calling a feature done).
 
 See [`plugins/zapad-laravel-backend/skills/`](plugins/zapad-laravel-backend/skills/).
 
@@ -59,6 +75,11 @@ See [`plugins/zapad-laravel-backend/skills/`](plugins/zapad-laravel-backend/skil
 ```
 .claude-plugin/marketplace.json     # marketplace manifest
 plugins/
+  zapad-house-rules/
+    .claude-plugin/plugin.json      # plugin manifest
+    house-rules.md                  # the guidelines themselves
+    hooks/hooks.json                # SessionStart -> injects house-rules.md into context
+    scripts/inject-house-rules.sh   # the script hooks.json calls
   zapad-js-stack/
     .claude-plugin/plugin.json      # plugin manifest
     skills/zapad-js-stack/          # the skill
@@ -71,4 +92,7 @@ plugins/
       coding-guidelines/SKILL.md
       new-feature/SKILL.md
       testing/SKILL.md
+      conformance-review/SKILL.md
+    hooks/hooks.json                  # auto-runs Pint + Larastan after editing a .php file
+    scripts/lint.sh                   # the script hooks.json calls
 ```

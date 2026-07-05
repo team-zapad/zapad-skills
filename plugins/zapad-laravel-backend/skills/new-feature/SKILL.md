@@ -53,6 +53,15 @@ Use `laravel-testing` now that the classes exist:
 - Unit tests for the Policy (true/false per method).
 - If an Integration client was added, `Http::fake()` tests for it.
 
+**11. Self-check — the gate before you say "done"**
+Do not tell the user the feature is complete on the strength of having written the files. Actually run the commands below and look at their real output before claiming success:
+```bash
+vendor/bin/pint --dirty
+vendor/bin/phpstan analyse
+php artisan test --filter={Domain}
+```
+Then re-read `laravel-conformance-review`'s Step 2 checklist against only the files you just touched (not the whole app) — it's the same rulebook, used here as a self-audit instead of a report. If anything in this step surfaces a problem, fix it before reporting completion, don't mention it as a caveat.
+
 ---
 
 ## Worked example: "Archive Conversation"
@@ -74,10 +83,12 @@ Domain: `Chat`. Walking the steps:
 
 ## Checklist before calling the feature done
 
+Every box here means "I ran/verified this and saw it pass" — not "this looks right." If you haven't executed step 11, you haven't earned any of these checkmarks.
+
 - [ ] `Actions/{Domain}/` mirrors `Controllers/{Domain}/` — no orphaned files on either side
 - [ ] Controller has exactly one method and zero business logic
 - [ ] Action never receives `$request`
 - [ ] Every business failure path has a `DomainException`, and each one is tested
 - [ ] Route is named and grouped with correct middleware
-- [ ] `vendor/bin/pint --dirty` and `vendor/bin/phpstan analyse` both pass
-- [ ] Unit test for the Action, feature test for the Controller, both exist and pass
+- [ ] `vendor/bin/pint --dirty` and `vendor/bin/phpstan analyse` both pass — actually run, not assumed
+- [ ] Unit test for the Action, feature test for the Controller, both exist and pass — actually run, not assumed

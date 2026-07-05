@@ -9,6 +9,11 @@
   },
   "plugins": [
     {
+      "name": "zapad-house-rules",
+      "source": "./plugins/zapad-house-rules",
+      "description": "Stack-agnostic behavioral guidelines injected at every session start: think before coding, simplicity first, surgical changes, goal-driven execution. Sits on top of every other Zapad skill/stack."
+    },
+    {
       "name": "zapad-js-stack",
       "source": "./plugins/zapad-js-stack",
       "description": "The canonical Zapad TypeScript web stack: TanStack Start on AWS serverless (Lambda), Prisma + Postgres, Better Auth, MUI. Defaults and invariants for scaffolding and architecture decisions."
@@ -16,7 +21,7 @@
     {
       "name": "zapad-laravel-backend",
       "source": "./plugins/zapad-laravel-backend",
-      "description": "Zapad's canonical Laravel backend architecture: single-action controllers, an Actions layer, Form Requests, domain exceptions, and Pest testing conventions. Covers project structure, coding guidelines, the new-feature workflow, and testing."
+      "description": "Zapad's canonical Laravel backend architecture: single-action controllers, an Actions layer, Form Requests, domain exceptions, and Pest testing conventions. Covers project structure, coding guidelines, the new-feature workflow, testing, and conformance review of existing codebases."
     }
   ]
 }
