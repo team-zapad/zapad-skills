@@ -1,0 +1,17 @@
+{
+  "name": "zapad-laravel-backend",
+  "description": "Zapad's canonical Laravel backend architecture: single-action controllers, an Actions layer for business logic, Form Requests for validation and authorization, domain exceptions, and Pest testing conventions. Covers where code lives, how to write it, the end-to-end feature workflow, and how to test it.",
+  "version": "1.0.0",
+  "author": {
+    "name": "team-zapad"
+  },
+  "keywords": [
+    "laravel",
+    "php",
+    "single-action-controllers",
+    "actions",
+    "form-requests",
+    "pest",
+    "architecture"
+  ]
+}
