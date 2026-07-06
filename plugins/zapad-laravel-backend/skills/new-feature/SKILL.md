@@ -92,3 +92,16 @@ Every box here means "I ran/verified this and saw it pass" — not "this looks r
 - [ ] Route is named and grouped with correct middleware
 - [ ] `vendor/bin/pint --dirty` and `vendor/bin/phpstan analyse` both pass — actually run, not assumed
 - [ ] Unit test for the Action, feature test for the Controller, both exist and pass — actually run, not assumed
+
+## Consistency pass — match your siblings (do this every time, before "done")
+
+Consistency beats "best style" (see `laravel-coding-guidelines` § Consistency beats local optimality). A feature isn't done until the new code looks like the code already around it. Open the sibling files in the SAME domain and layer and diff your new code against their patterns — then fix yours to match, even where you'd personally choose differently. These are the drifts that slip through review, so check each explicitly:
+
+- [ ] **Action verbs** — the new create/update/delete Action uses the SAME verb as its siblings (all `Register*`, or all `Store*` — not a new `Save*` next to `Register*`). One operation, one verb across the layer.
+- [ ] **Dependency injection** — the controller injects its Action the same way its siblings do: all via the constructor, or all via `__invoke` — never a mix within the domain.
+- [ ] **Names tell the truth about type** — `is`/`has`/`can`/`should` names hold only booleans; a variable holding a number/string/model is named for what it holds (`$minInternetSpeed`, not `$hasInternet`). No name needs a comment to reveal its type.
+- [ ] **Return types** — a new list/show/store endpoint returns the same shape and type as the sibling list/show/store endpoints; don't introduce a new way to return a collection or resource.
+- [ ] **Controller ⇄ Action mirror** — the new Controller has an Action in the mirrored `Actions/{Domain}` path (the PostToolUse hook warns on this, but confirm it).
+- [ ] **File & test naming** — the test file, class, and method names follow the pattern the sibling files already use.
+
+When your instinct and the existing pattern disagree, follow the pattern and move on. If the pattern is genuinely wrong, fix the whole set in a separate pass — never ship the new file as the lone exception.

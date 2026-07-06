@@ -31,12 +31,23 @@ Laravel core is the style guide. If unsure how to name something, check how Lara
 - **Domain-prefix generic-suffix classes, don't prefix specific ones.** Verb-named or resource-named classes (Actions, Controllers, FormRequests, Exceptions) are already unique enough that their namespace disambiguates them — never prefix those with the domain (`Chat/StoreMessageController`, not `Chat/ChatStoreMessageController`). But catch-all architectural nouns — `Service`, `Repository`, `Manager` — recur in every domain folder and collide in IDE fuzzy-search (Cmd+P/Cmd+O) when unprefixed, so those get the domain folded into the name: `CheckoutSessionService`, not `Session/SessionService`. This is the same reasoning that already gives Integration clients their name — `WhatsAppClient`, never a bare `Client` (see the Naming & Location Reference in `laravel-project-structure`).
 - **Methods and variables**: `camelCase` — `sendMessage()`, `$conversationId`. Never snake_case, never Hungarian-notation prefixes.
 - **Database**: `snake_case` columns, plural `snake_case` table names (`conversation_participants`). Let Laravel infer the table name from the model; don't set `$table` unless it truly can't be inferred.
-- **Booleans**: prefix `is`/`has`/`can`/`should` — `isArchived`, `hasParticipants`. A bare adjective as a method name (`archived()`) is ambiguous with an accessor and should be avoided.
+- **Booleans**: prefix `is`/`has`/`can`/`should` — `isArchived`, `hasParticipants`. A bare adjective as a method name (`archived()`) is ambiguous with an accessor and should be avoided. These prefixes are reserved for booleans: a variable that holds a number, string, or model is named for what it holds (`$minInternetSpeed`, never `$hasInternet` for a speed value).
 - **Relationships**: named after what they return, matching Eloquent convention — `hasMany` is plural (`messages()`), `belongsTo`/`hasOne` is singular (`conversation()`, `sender()`).
 - **No abbreviations** beyond ones PHP/Laravel already treat as idiomatic. `$req`, `$msg`, `$conv` are out; `$request`, `$message`, `$conversation` are in. Short loop/catch variables (`$i`, `$e`) are fine.
 - A name should make its type and intent obvious without opening the file. If a variable needs a comment to explain what it holds, rename it instead.
 
 ---
+
+## Consistency beats local optimality
+
+When a domain or layer already does something one way, **match it** — even if you'd personally pick a different-but-also-correct approach. A codebase that does one thing five slightly-different ways is harder to work in than one that does it a single, consistent, slightly-worse way. Before adding a class, open its siblings and copy their shape.
+
+- One operation, one verb across a layer: if the domain's create-Actions are `Register*`, a new one is `RegisterX`, not `SaveX`/`StoreX`.
+- One dependency-injection style per layer: if sibling controllers inject via the constructor, the new one does too — don't mix constructor and method injection.
+- One return type per endpoint shape: a new "list" endpoint returns what the other list endpoints return; don't introduce a fourth way to return a collection.
+- Same file/test naming pattern as the siblings already present.
+
+If the existing pattern is genuinely wrong, change **all** of it in a separate, dedicated pass — never leave the new file as the lone exception, and never "fix" one sibling in passing. Introducing a second style is the more expensive mistake.
 
 ## Duplication and abstraction — mechanical rules
 
