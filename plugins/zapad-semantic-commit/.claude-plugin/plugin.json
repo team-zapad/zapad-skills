@@ -1,0 +1,14 @@
+{
+  "name": "zapad-semantic-commit",
+  "description": "Zapad's commit convention: Conventional Commits, always written in English, one commit per logical change, staging only the files that belong to the task. Covers the commit format, the type table, and the check-stage-review-write workflow.",
+  "version": "1.0.0",
+  "author": {
+    "name": "team-zapad"
+  },
+  "keywords": [
+    "git",
+    "commits",
+    "conventional-commits",
+    "semantic-commit"
+  ]
+}

@@ -45,6 +45,15 @@ Define success criteria. Loop until verified, not until it looks done.
 - Don't report a task as complete on the strength of having written the code — run the real
   checks (tests, linters, the project's own gates) and look at the output before saying it's done.
 
+## 5. Git discipline
+
+Version control exists before the code does. Commits are in English.
+
+- A git repository exists before the project's first file is written. New project → `git init`
+  first, then anything else.
+- Commit messages in **English**, Conventional Commits format — see `zapad-semantic-commit`.
+- One commit per logical change, and stage only the files that belong to the task.
+
 ---
 
 These rules are working if diffs get smaller, fewer changes get rewritten for being
