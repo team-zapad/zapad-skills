@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Zapad's shared Claude Code skills.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -22,6 +22,16 @@
       "name": "zapad-laravel-backend",
       "source": "./plugins/zapad-laravel-backend",
       "description": "Zapad's canonical Laravel backend architecture: single-action controllers, an Actions layer, Form Requests, domain exceptions, and Pest testing conventions. Covers project structure, coding guidelines, the new-feature workflow, testing, and conformance review of existing codebases."
+    },
+    {
+      "name": "zapad-new-project",
+      "source": "./plugins/zapad-new-project",
+      "description": "Wizard for starting a new project: collects title, objective, language and framework, guarantees a git repository exists before the first file is written, scaffolds README.md, CLAUDE.md and .gitignore, commits in English, then hands off to the matching stack skill."
+    },
+    {
+      "name": "zapad-semantic-commit",
+      "source": "./plugins/zapad-semantic-commit",
+      "description": "Zapad's commit convention: Conventional Commits, always written in English, one commit per logical change, staging only the files that belong to the task."
     }
   ]
 }

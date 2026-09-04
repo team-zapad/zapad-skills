@@ -16,13 +16,15 @@ Then install the skill into any project:
 /plugin install zapad-house-rules
 /plugin install zapad-js-stack
 /plugin install zapad-laravel-backend
+/plugin install zapad-new-project
+/plugin install zapad-semantic-commit
 ```
 
 Update later with `/plugin marketplace update zapad-skills`.
 
 ## Org-wide rollout
 
-The manual install above is per-developer, per-project. For a team, that's 4 commands someone has
+The manual install above is per-developer, per-project. For a team, that's 6 commands someone has
 to remember to run every time — the two options below make it automatic instead.
 
 **Tier 1 — per-project, no admin access needed.**
@@ -34,12 +36,14 @@ team-zapad/zapad-skills`). Then commit this to every Zapad project's `.claude/se
   "enabledPlugins": {
     "zapad-house-rules@zapad-skills": true,
     "zapad-laravel-backend@zapad-skills": true,
-    "zapad-js-stack@zapad-skills": true
+    "zapad-js-stack@zapad-skills": true,
+    "zapad-new-project@zapad-skills": true,
+    "zapad-semantic-commit@zapad-skills": true
   }
 }
 ```
 
-Anyone who clones the project and opens it in Claude Code gets all three plugins active —
+Anyone who clones the project and opens it in Claude Code gets all five plugins active —
 no per-project `/plugin install`.
 
 **Tier 2 — org-enforced, zero developer action.**
@@ -57,7 +61,9 @@ Deploy it via MDM (Jamf/Kandji/Intune/GPO) or a new-laptop setup script, to:
   "enabledPlugins": [
     { "marketplace": "zapad-skills", "plugin": "zapad-house-rules" },
     { "marketplace": "zapad-skills", "plugin": "zapad-laravel-backend" },
-    { "marketplace": "zapad-skills", "plugin": "zapad-js-stack" }
+    { "marketplace": "zapad-skills", "plugin": "zapad-js-stack" },
+    { "marketplace": "zapad-skills", "plugin": "zapad-new-project" },
+    { "marketplace": "zapad-skills", "plugin": "zapad-semantic-commit" }
   ]
 }
 ```
@@ -123,6 +129,28 @@ regardless of how it was written.
 
 See [`plugins/zapad-laravel-backend/skills/`](plugins/zapad-laravel-backend/skills/).
 
+### `zapad-new-project`
+
+The wizard for a project that doesn't exist yet. It asks four questions — title, objective,
+language, framework — then gates on git: `git rev-parse --git-dir`, and `git init` **before** the
+first file is written, `.gitignore` and `README.md` included. It scaffolds only three documents
+(`README.md`, `CLAUDE.md`, `.gitignore` — `CLAUDE.md` is what makes the answers outlive the
+session), commits `chore: initialize <title>`, and hands off to the stack skill that owns the real
+scaffold (`zapad-js-stack` or `zapad-laravel-backend`). It deliberately doesn't duplicate anything
+those two already say about structure or deploy.
+
+See [`plugins/zapad-new-project/skills/new-project/SKILL.md`](plugins/zapad-new-project/skills/new-project/SKILL.md).
+
+### `zapad-semantic-commit`
+
+[Conventional Commits](https://www.conventionalcommits.org/) with three house rules on top: commit
+messages are **always in English** regardless of the conversation's language, one commit per logical
+change, and never `git add -A` blindly. Contains the format, the type table, the
+check → stage → review → write workflow, and good/bad examples. Triggers whenever a commit is being
+made.
+
+See [`plugins/zapad-semantic-commit/skills/semantic-commit/SKILL.md`](plugins/zapad-semantic-commit/skills/semantic-commit/SKILL.md).
+
 ## Repo layout
 
 ```
@@ -149,4 +177,10 @@ plugins/
     hooks/hooks.json                  # auto-runs Pint + Larastan after editing a .php file
     scripts/lint.sh                   # the script hooks.json calls
     templates/laravel-quality-gate.yml # CI backstop, copy into a project's .github/workflows/
+  zapad-new-project/
+    .claude-plugin/plugin.json      # plugin manifest
+    skills/new-project/SKILL.md     # the wizard: title/objective/language/framework, git gate, handoff
+  zapad-semantic-commit/
+    .claude-plugin/plugin.json      # plugin manifest
+    skills/semantic-commit/SKILL.md # Conventional Commits, in English
 ```

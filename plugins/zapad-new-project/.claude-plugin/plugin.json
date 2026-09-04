@@ -1,0 +1,15 @@
+{
+  "name": "zapad-new-project",
+  "description": "Wizard that starts a new Zapad project: collects title, objective, language and framework, guarantees a git repository exists before the first file is written, scaffolds README.md, CLAUDE.md and .gitignore, commits in English, then hands off to the matching stack skill.",
+  "version": "1.0.0",
+  "author": {
+    "name": "team-zapad"
+  },
+  "keywords": [
+    "scaffold",
+    "bootstrap",
+    "new-project",
+    "wizard",
+    "git"
+  ]
+}
