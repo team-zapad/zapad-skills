@@ -22,6 +22,11 @@
       "name": "zapad-laravel-backend",
       "source": "./plugins/zapad-laravel-backend",
       "description": "Zapad's canonical Laravel backend architecture: single-action controllers, an Actions layer, Form Requests, domain exceptions, and Pest testing conventions. Covers project structure, coding guidelines, the new-feature workflow, testing, and conformance review of existing codebases."
+    },
+    {
+      "name": "zapad-design-flow",
+      "source": "./plugins/zapad-design-flow",
+      "description": "The git and project workflow for designers, in Portuguese: set up the machine, create and run high-fidelity prototypes in Vite + React + Tailwind, and the full branch, commit, Pull Request and rescue cycle, with guards for people who do not know git."
     }
   ]
 }
