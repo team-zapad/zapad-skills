@@ -1,0 +1,17 @@
+{
+  "name": "zapad-design-flow",
+  "description": "O fluxo de git e de projeto para os designers da Zapad, em portugues: configurar a maquina, criar e rodar prototipos de alta fidelidade em Vite + React + Tailwind, e o ciclo completo de branch, commit, Pull Request e socorro, com travas para quem nao domina git.",
+  "version": "0.1.0",
+  "author": {
+    "name": "team-zapad"
+  },
+  "keywords": [
+    "design",
+    "git",
+    "prototipo",
+    "vite",
+    "react",
+    "tailwind",
+    "onboarding"
+  ]
+}

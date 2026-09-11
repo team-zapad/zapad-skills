@@ -16,6 +16,7 @@ Then install the skill into any project:
 /plugin install zapad-house-rules
 /plugin install zapad-js-stack
 /plugin install zapad-laravel-backend
+/plugin install zapad-design-flow
 ```
 
 Update later with `/plugin marketplace update zapad-skills`.
@@ -66,6 +67,13 @@ This is the actual one-click (zero-click) install: every dev, every project, eve
 Zapad conventions active from the first `claude` command, with no opt-in step to forget. An
 optional `strictKnownMarketplaces` field can also block devs from adding unapproved marketplaces
 — left out here since that's a bigger policy call than "install our skills."
+
+**Designers are a separate profile.** Tier 1 does not work for `zapad-design-flow`: a designer uses
+it to *create* the project, so there is no project yet whose `.claude/settings.json` could enable it.
+Either put the two `/plugin` commands in design onboarding, or give the design group its own Tier 2
+payload with `zapad-design-flow` alone. That profile should not get `zapad-js-stack` or
+`zapad-laravel-backend` — both would push a prototype toward the production stack this plugin
+deliberately avoids.
 
 ## Skills
 
@@ -123,6 +131,38 @@ regardless of how it was written.
 
 See [`plugins/zapad-laravel-backend/skills/`](plugins/zapad-laravel-backend/skills/).
 
+### `zapad-design-flow`
+
+The git and project workflow for **designers**, written in Portuguese. Nine skills that take a
+designer from nothing to a high-fidelity prototype online without having to learn git first. Scoped
+to prototype repos — Vite + React + Tailwind, pure front end, no `.env`, no production access —
+deliberately lighter than `zapad-js-stack`.
+
+| | |
+|---|---|
+| `configurar` | Node, git identity and GitHub auth. Once per person. |
+| `novo-projeto` | Creates a new prototype and gets it running in the browser |
+| `rodar-projeto` | Gets an existing prototype running here, and writes the project's `CLAUDE.md` if there is none |
+| `nova-tarefa` | A clean branch off an up-to-date `main` |
+| `salvar` | Commits one finished idea, screening out what must not go in |
+| `mandar-pro-time` | Pushes, opens the PR and hands back the preview link |
+| `socorro` | One door for when things break — six cases, safe fix only |
+| `atualizar` | Merges `main` into the branch before it rots |
+| `preparar-entrega` | Separates reusable components from prototype shortcuts and writes `HANDOFF.md` |
+
+Like `zapad-house-rules`, it ships a `SessionStart` hook (`hooks/hooks.json` +
+`scripts/inject-convencoes.sh`) that injects
+[`convencoes.md`](plugins/zapad-design-flow/convencoes.md) into context: branch naming, commit
+format and the safety guards apply with or without a command — the nine skills are a shortcut to the
+full path, not the only door. The hook only affects whoever installs this plugin; devs are untouched.
+
+Anything that stays in the repo is English (branch, commit, PR); anything spoken to the person is
+Portuguese. Destructive git is out of the plugin entirely — no `reset --hard`, no force push, no
+`rebase`, no history rewriting. When that is the only known way out, the skill stops and prepares a
+Discord message with the technical state attached.
+
+See [`plugins/zapad-design-flow/`](plugins/zapad-design-flow/).
+
 ## Repo layout
 
 ```
@@ -149,4 +189,20 @@ plugins/
     hooks/hooks.json                  # auto-runs Pint + Larastan after editing a .php file
     scripts/lint.sh                   # the script hooks.json calls
     templates/laravel-quality-gate.yml # CI backstop, copy into a project's .github/workflows/
+  zapad-design-flow/
+    .claude-plugin/plugin.json      # plugin manifest
+    convencoes.md                   # the always-on conventions
+    hooks/hooks.json                # SessionStart -> injects convencoes.md into context
+    scripts/inject-convencoes.sh    # the script hooks.json calls
+    skills/                         # the nine designer skills, in Portuguese
+      configurar/SKILL.md
+      novo-projeto/SKILL.md
+      rodar-projeto/SKILL.md
+      nova-tarefa/SKILL.md
+      salvar/SKILL.md
+      mandar-pro-time/SKILL.md
+      socorro/SKILL.md
+      socorro/references/casos.md
+      atualizar/SKILL.md
+      preparar-entrega/SKILL.md
 ```
