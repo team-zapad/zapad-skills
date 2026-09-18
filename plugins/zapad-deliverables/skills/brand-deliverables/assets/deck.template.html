@@ -1,0 +1,414 @@
+<title>__TITULO_CURTO__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+  /* Padrão Zapad — tema claro único, por decisão de marca.
+     Toda cor é pintada explicitamente para o deck se sustentar
+     sobre qualquer fundo do visualizador. */
+  :root {
+    color-scheme: light;
+
+    --branco:       #ffffff;
+    --chao:         #f1eff7;
+
+    --roxo:         #7C3AED;
+    --roxo-medio:   #A78BFA;
+    --roxo-claro:   #CFC0FA;
+    --roxo-pale:    #EDE6FC;
+    --roxo-borda:   #8B5CF6;
+    --roxo-escuro:  #4C1D95;
+
+    --ouro:         #B8860B;
+    --ouro-claro:   #E3CC8F;
+    --ouro-pale:    #F5EDD9;
+
+    --tinta:        #1A1A1F;
+    --tinta-2:      #55555F;
+    --tinta-3:      #8A8A96;
+
+    --regua:        #E4DCF3;
+    --caixa-borda:  #DFD9EA;
+
+    --fonte: "Urbanist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-snap-type: y proximity; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+
+  body {
+    background: var(--chao);
+    color: var(--tinta);
+    font-family: var(--fonte);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck {
+    display: flex; flex-direction: column; gap: 22px;
+    padding: 22px clamp(12px, 2.5vw, 34px) 60px;
+    max-width: 1240px; margin: 0 auto;
+  }
+
+  .slide {
+    scroll-snap-align: center;
+    background: var(--branco);
+    border-radius: 14px;
+    padding: clamp(30px, 4.2vw, 58px);
+    display: flex; flex-direction: column;
+    gap: clamp(20px, 2.6vw, 32px);
+    position: relative;
+    box-shadow: 0 1px 2px rgba(26,26,31,.05), 0 8px 26px rgba(76,29,149,.06);
+  }
+  /* 16:9 só no desktop; abaixo disso a altura volta a ser o conteúdo */
+  @media (min-width: 920px) { .slide { aspect-ratio: 16 / 9; justify-content: center; } }
+
+  /* ---------- cabeçalho ---------- */
+  .s-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    gap: clamp(20px, 3vw, 48px);
+    align-items: end;
+  }
+  .s-head.solo { grid-template-columns: minmax(0, 1fr); }
+
+  .eyebrow {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--tinta-3); margin: 0 0 9px;
+  }
+  .eyebrow.roxo { color: var(--roxo); }
+
+  h1, h2 {
+    font-weight: 700; letter-spacing: -0.022em; text-wrap: balance;
+    margin: 0; line-height: 1.1; color: var(--tinta);
+  }
+  h1 { font-size: clamp(34px, 5.2vw, 58px); }
+  h2 { font-size: clamp(24px, 3.3vw, 40px); }
+  p { margin: 0; }
+
+  .aside {
+    font-size: clamp(13.5px, 1.25vw, 15.5px);
+    color: var(--tinta-2); line-height: 1.55; padding-bottom: 5px;
+  }
+  .aside b { color: var(--tinta); font-weight: 700; }
+
+  .regua { height: 1px; background: var(--regua); border: none; margin: 0; }
+  .rodape { font-size: 11.5px; color: var(--tinta-3); line-height: 1.5; }
+  .rodape b { color: var(--tinta-2); font-weight: 600; }
+
+  /* ---------- capa e encerramento ---------- */
+  .slide.escuro { background: var(--branco); padding: 0; overflow: hidden; }
+  .painel {
+    position: absolute; inset: 0; border-radius: 14px;
+    background-color: #1b0230;
+    background-image: url("__MESH__");
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+  }
+  .painel-conteudo {
+    position: relative; z-index: 2; height: 100%;
+    display: flex; flex-direction: column; justify-content: center; gap: 16px;
+    padding: clamp(38px, 6vw, 84px);
+  }
+  .slide.escuro h1 { color: var(--branco); }
+  .capa-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--roxo-medio); margin: 0 0 4px;
+  }
+  .capa-sub {
+    font-size: clamp(14px, 1.5vw, 17px); color: rgba(255,255,255,.82);
+    max-width: 46ch; margin-top: 6px;
+  }
+  .capa-contato {
+    font-size: clamp(13px, 1.4vw, 16px); color: rgba(255,255,255,.8);
+    line-height: 1.7; margin-top: 20px;
+  }
+
+  /* recortes brancos nos cantos — padding folgado nos quatro lados,
+     senão o conteúdo encosta na borda e o overflow:hidden corta */
+  .recorte { position: absolute; z-index: 3; background: var(--branco); display: grid; place-items: center; }
+  .recorte.tl {
+    top: 0; left: 0;
+    padding: clamp(18px,2.4vw,26px) clamp(26px,3.2vw,38px) clamp(18px,2.4vw,26px) clamp(26px,3.4vw,42px);
+    border-bottom-right-radius: 18px;
+  }
+  .recorte.br {
+    bottom: 0; right: 0;
+    padding: clamp(18px,2.4vw,26px) clamp(26px,3.4vw,42px) clamp(18px,2.4vw,26px) clamp(26px,3.2vw,38px);
+    border-top-left-radius: 18px;
+  }
+  /* max-height evita que um asset faltando ou de proporção inesperada
+     estufe o recorte e cubra o título da capa */
+  .logo-zapad, .logo-cliente { display: block; height: auto; max-height: 64px; object-fit: contain; }
+  .logo-zapad   { width: clamp(72px, 7vw, 96px); }
+  .logo-cliente { width: clamp(96px, 9.5vw, 132px); }
+
+  /* ---------- números ---------- */
+  .figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: clamp(18px, 2.6vw, 40px); }
+  .fig { display: flex; flex-direction: column; gap: 5px; }
+  .fig-label {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--tinta-3);
+  }
+  .fig-valor {
+    font-size: clamp(34px, 4.6vw, 58px); font-weight: 700; line-height: 1;
+    letter-spacing: -0.035em; font-variant-numeric: tabular-nums; color: var(--tinta);
+  }
+  .fig-valor.sm   { font-size: clamp(27px, 3.4vw, 42px); }
+  .fig-valor.roxo { color: var(--roxo); }
+  .fig-sub { font-size: 13.5px; color: var(--tinta-2); }
+
+  /* ---------- barras ---------- */
+  .legenda { display: flex; flex-wrap: wrap; gap: 7px 24px; font-size: 13px; color: var(--tinta-2); }
+  .legenda span { display: inline-flex; align-items: center; gap: 8px; }
+  .sw { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+  .sw.auto   { background: var(--roxo); }
+  .sw.manual { background: var(--ouro); }
+
+  .barras { display: flex; flex-direction: column; gap: clamp(7px, 1vw, 12px); }
+  .linha { display: grid; grid-template-columns: 54px minmax(0, 1fr) 92px; align-items: center; gap: clamp(9px, 1.4vw, 18px); }
+  .chave { font-size: 12.5px; font-weight: 600; color: var(--tinta-2); font-variant-numeric: tabular-nums; }
+  .trilho { display: flex; gap: 2px; height: clamp(22px, 2.7vw, 32px); background: var(--roxo-pale); border-radius: 5px; }
+  .seg {
+    min-width: 4px; border-radius: 5px; display: flex; align-items: center;
+    justify-content: flex-end; padding-right: 9px; transition: filter .12s ease;
+  }
+  .seg:hover, .seg:focus-visible { filter: brightness(1.09); }
+  .seg:focus-visible { outline: 2px solid var(--roxo-escuro); outline-offset: 2px; }
+  .seg.auto   { background: var(--roxo); }
+  .seg.manual { background: var(--ouro); }
+  .seg-lab {
+    font-size: clamp(10.5px, 1.05vw, 12.5px); font-weight: 700; color: var(--branco);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .valor { font-size: 12.5px; text-align: right; color: var(--tinta-2); font-variant-numeric: tabular-nums; font-weight: 600; }
+  .valor .q { display: block; font-size: 10.5px; color: var(--tinta-3); font-weight: 500; }
+  .barras-largas .linha { grid-template-columns: 82px minmax(0, 1fr) 56px; }
+  .barras-largas .chave { white-space: nowrap; }
+
+  /* ---------- proporção ---------- */
+  .faixa { display: flex; gap: 2px; height: clamp(40px, 5vw, 58px); background: var(--roxo-pale); border-radius: 6px; }
+  .faixa > div { border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .faixa .lab { font-size: clamp(11px, 1.25vw, 14px); font-weight: 700; color: var(--branco); font-variant-numeric: tabular-nums; }
+
+  /* linhas de estatística: grid 3×3 para o rótulo que quebra não desalinhar a fileira */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 34px; row-gap: 12px; align-items: end; }
+  .stat-l { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; line-height: 1.25; text-transform: uppercase; color: var(--tinta-3); }
+  .stat-v { font-size: clamp(26px, 3vw, 38px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat-s { font-size: 13.5px; color: var(--tinta-2); }
+
+  /* ---------- caixas ---------- */
+  .caixas { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(14px, 1.8vw, 22px); }
+  .caixa {
+    border: 1px solid var(--caixa-borda); border-radius: 9px;
+    padding: clamp(16px, 2vw, 24px); display: flex; flex-direction: column; gap: 9px;
+  }
+  .caixa.destaque { border-color: var(--roxo-borda); }
+  .caixa-tit { font-size: 15.5px; font-weight: 700; color: var(--tinta); }
+  .caixa-sub { font-size: 13.5px; color: var(--roxo); font-weight: 600; }
+  .caixa-txt { font-size: 13.5px; color: var(--tinta-2); }
+
+  .destaque-largo {
+    border: 1px solid var(--roxo-borda); border-radius: 9px;
+    padding: clamp(15px, 1.9vw, 22px); display: flex; flex-direction: column; gap: 6px;
+  }
+  .destaque-largo .t { font-size: 14px; font-weight: 700; color: var(--roxo); }
+  .destaque-largo .c { font-size: 14.5px; color: var(--tinta-2); }
+  .destaque-largo .c b { color: var(--tinta); font-weight: 700; }
+
+  /* ---------- passos ---------- */
+  .passos { display: flex; flex-direction: column; gap: clamp(18px, 2.4vw, 30px); }
+  .passo { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: clamp(14px, 2vw, 22px); align-items: start; }
+  .passo-n {
+    width: 30px; height: 30px; border-radius: 50%; background: var(--roxo); color: var(--branco);
+    font-size: 13px; font-weight: 700; display: grid; place-items: center; margin-top: 3px;
+  }
+  .passo-c { display: flex; flex-direction: column; gap: 5px; }
+  .passo-t { font-size: clamp(17px, 2vw, 23px); font-weight: 700; color: var(--tinta); line-height: 1.2; }
+  .passo-p { font-size: 15px; color: var(--tinta-2); max-width: 54ch; }
+
+  /* ---------- navegação ---------- */
+  nav { position: fixed; right: 14px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 9px; z-index: 30; }
+  nav a { width: 8px; height: 8px; border-radius: 50%; background: var(--roxo-claro); transition: background .15s ease, transform .15s ease; }
+  nav a:hover { background: var(--roxo-medio); }
+  nav a.on { background: var(--roxo); transform: scale(1.4); }
+  nav a:focus-visible { outline: 2px solid var(--roxo-escuro); outline-offset: 3px; }
+  @media (max-width: 860px) { nav { display: none; } }
+
+  #tip {
+    position: fixed; z-index: 40; pointer-events: none;
+    background: var(--tinta); color: var(--branco);
+    font-size: 12px; font-weight: 500; padding: 7px 10px; border-radius: 5px;
+    white-space: nowrap; opacity: 0; transition: opacity .1s ease;
+  }
+  #tip.on { opacity: 1; }
+
+  @media (max-width: 700px) {
+    .s-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .linha { grid-template-columns: 42px minmax(0, 1fr) 70px; }
+    .barras-largas .linha { grid-template-columns: 72px minmax(0, 1fr) 50px; }
+    .seg-lab { display: none; }
+  }
+</style>
+
+<!-- um ponto por slide -->
+<nav aria-label="Navegar slides">
+  <a href="#s1" class="on" aria-label="Capa"></a>
+  <a href="#s2" aria-label="Slide 2"></a>
+  <a href="#s3" aria-label="Slide 3"></a>
+  <a href="#s4" aria-label="Encerramento"></a>
+</nav>
+
+<div class="deck">
+
+  <!-- CAPA -->
+  <section class="slide escuro" id="s1">
+    <div class="painel"></div>
+    <div class="recorte tl"><img class="logo-zapad" src="__ZAPAD__" alt="Zapad"></div>
+    <div class="painel-conteudo">
+      <p class="capa-eyebrow">__ASSUNTO__ &middot; __MES_ANO__</p>
+      <h1>__TITULO__</h1>
+      <p class="capa-sub">__SUBTITULO__</p>
+    </div>
+    <div class="recorte br"><img class="logo-cliente" src="__CLIENTE__" alt="__NOME_CLIENTE__"></div>
+  </section>
+
+  <!-- CONTEÚDO: gráfico de barras com duas séries -->
+  <section class="slide" id="s2">
+    <div class="s-head">
+      <div>
+        <p class="eyebrow">__EYEBROW__</p>
+        <h2>__AFIRMACAO_DO_SLIDE__</h2>
+      </div>
+      <p class="aside">__CONTEXTO_CURTO__</p>
+    </div>
+    <hr class="regua">
+
+    <div class="legenda">
+      <span><i class="sw auto"></i>__SERIE_ZAPAD__</span>
+      <span><i class="sw manual"></i>__SERIE_CLIENTE__</span>
+    </div>
+
+    <div class="barras">
+      <div class="linha">
+        <span class="chave">__PERIODO__</span>
+        <div class="trilho">
+          <div class="seg auto" style="width:__PCT__%" data-tip="__TOOLTIP__"><span class="seg-lab">__N__</span></div>
+          <div class="seg manual" style="width:__PCT__%" data-tip="__TOOLTIP__"></div>
+        </div>
+        <span class="valor">__TOTAL__<span class="q">__QUALIFICADOR__</span></span>
+      </div>
+    </div>
+
+    <p class="rodape">Mesma escala em todas as linhas; barra cheia = __MAXIMO__.</p>
+  </section>
+
+  <!-- CONTEÚDO: números + conclusão -->
+  <section class="slide" id="s3">
+    <div class="s-head solo">
+      <div>
+        <p class="eyebrow">__EYEBROW__</p>
+        <h2>__AFIRMACAO_DO_SLIDE__</h2>
+      </div>
+    </div>
+    <hr class="regua">
+
+    <div class="figs">
+      <div class="fig">
+        <span class="fig-label">__ROTULO__</span>
+        <span class="fig-valor sm">__NUMERO__</span>
+        <span class="fig-sub">__LEGENDA__</span>
+      </div>
+      <div class="fig">
+        <span class="fig-label">__ROTULO__</span>
+        <span class="fig-valor sm roxo">__NUMERO__</span>
+        <span class="fig-sub">__LEGENDA__</span>
+      </div>
+    </div>
+
+    <div class="destaque-largo">
+      <span class="t">__TITULO_DA_CONCLUSAO__</span>
+      <span class="c">__CONCLUSAO__</span>
+    </div>
+  </section>
+
+  <!-- ENCERRAMENTO -->
+  <section class="slide escuro" id="s4">
+    <div class="painel"></div>
+    <div class="painel-conteudo">
+      <h1>Vamos construir o<br>futuro juntos?</h1>
+      <p class="capa-contato">__EMAIL__<br>zapad.com.br</p>
+    </div>
+    <div class="recorte br"><img class="logo-zapad" src="__ZAPAD__" alt="Zapad"></div>
+  </section>
+
+</div>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<script>
+  (function () {
+    var tip = document.getElementById('tip');
+
+    function place(e) {
+      var x = e.clientX + 14, y = e.clientY + 16;
+      var r = tip.getBoundingClientRect();
+      if (x + r.width > window.innerWidth - 8) { x = window.innerWidth - r.width - 8; }
+      if (y + r.height > window.innerHeight - 8) { y = e.clientY - r.height - 12; }
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
+    }
+
+    document.querySelectorAll('[data-tip]').forEach(function (m) {
+      m.setAttribute('tabindex', '0');
+      m.addEventListener('mouseenter', function (e) {
+        tip.textContent = m.getAttribute('data-tip'); tip.classList.add('on'); place(e);
+      });
+      m.addEventListener('mousemove', place);
+      m.addEventListener('mouseleave', function () { tip.classList.remove('on'); });
+      m.addEventListener('focus', function () {
+        var r = m.getBoundingClientRect();
+        tip.textContent = m.getAttribute('data-tip');
+        tip.classList.add('on');
+        tip.style.left = r.left + 'px';
+        tip.style.top = (r.bottom + 8) + 'px';
+      });
+      m.addEventListener('blur', function () { tip.classList.remove('on'); });
+    });
+
+    var dots = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+
+    // só destaca o ponto ativo — nenhum conteúdo depende disso para aparecer
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) { return; }
+          var i = slides.indexOf(en.target);
+          dots.forEach(function (d, j) { d.classList.toggle('on', j === i); });
+        });
+      }, { threshold: 0.5 });
+      slides.forEach(function (s) { io.observe(s); });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) { return; }
+      var dir = 0;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'ArrowRight') { dir = 1; }
+      if (e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'ArrowLeft') { dir = -1; }
+      if (!dir) { return; }
+      var cur = 0, best = Infinity;
+      slides.forEach(function (s, i) {
+        var d = Math.abs(s.getBoundingClientRect().top);
+        if (d < best) { best = d; cur = i; }
+      });
+      var next = slides[cur + dir];
+      if (next) { e.preventDefault(); next.scrollIntoView({ block: 'center' }); }
+    });
+  })();
+</script>

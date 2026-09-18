@@ -1,0 +1,146 @@
+<meta charset="utf-8">
+<title>Card</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+  /* Dimensão fixa: com --force-device-scale-factor=1 no render_png.sh,
+     1px de CSS = 1px do PNG. Trocar aqui e no comando de render. */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; }
+  body {
+    font-family: "Urbanist", -apple-system, sans-serif;
+    background: #1b0230; position: relative; overflow: hidden; color: #fff;
+  }
+  .bg {
+    position: absolute; inset: 0;
+    background-image: url("__MESH__");
+    background-size: cover; background-position: center;
+  }
+  /* véu: escurece topo e base o bastante para o texto branco firmar,
+     sem apagar o roxo do meio */
+  .veu {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(12,0,22,.46) 0%, rgba(12,0,22,.14) 40%, rgba(12,0,22,.66) 100%);
+  }
+
+  /* Recortes brancos, usados só quando o card leva logo — logo roxo não
+     aparece sobre fundo escuro, e logo de cliente costuma vir com fundo
+     branco sólido de qualquer jeito.
+     Vêm desligados: card sem marca circula melhor quando o conteúdo é o
+     produto, e foi o caso mais comum na prática. Para ligar, descomente o
+     markup lá embaixo E troque o padding-top de .corpo para 210px, senão
+     os recortes cobrem o título.
+     max-height protege o layout de um asset faltando ou de proporção
+     inesperada: sem ele, um placeholder quadrado vira um bloco enorme. */
+  .chip { position: absolute; background: #fff; display: grid; place-items: center; }
+  .chip.tl { top: 0; left: 0; padding: 44px 56px 44px 60px; border-bottom-right-radius: 34px; }
+  .chip.tr { top: 0; right: 0; padding: 34px 60px 34px 56px; border-bottom-left-radius: 34px; }
+  .chip img { display: block; max-height: 72px; object-fit: contain; }
+  .chip.tl img { width: 148px; }
+  .chip.tr img { width: 168px; }
+
+  .corpo {
+    position: absolute; inset: 0;
+    padding: 92px 84px 96px;   /* com recortes ligados: 210px no topo */
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+
+  .eyebrow {
+    font-size: 27px; font-weight: 800; letter-spacing: 4.6px;
+    text-transform: uppercase; color: #C4A9FB; margin-bottom: 26px;
+  }
+  h1 { font-size: 108px; font-weight: 800; line-height: 1.02; letter-spacing: -3.8px; }
+
+  /* grid 3×3: rótulo que quebra em duas linhas não desalinha a fileira */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 34px; row-gap: 12px; align-items: end; }
+  .stat-l {
+    font-size: 21px; font-weight: 700; letter-spacing: 1.4px; line-height: 1.25;
+    text-transform: uppercase; color: rgba(255,255,255,.62);
+  }
+  .stat-v { font-size: 92px; font-weight: 800; letter-spacing: -3.4px; line-height: 1; }
+  .stat-v.roxo { color: #C4A9FB; }
+  .stat-s { font-size: 24px; color: rgba(255,255,255,.68); }
+
+  .virada { display: flex; flex-direction: column; gap: 18px; }
+  .vl { display: flex; align-items: center; gap: 24px; }
+  .vk { width: 78px; font-size: 27px; font-weight: 700; color: rgba(255,255,255,.7); }
+  .vt { flex: 1; display: flex; gap: 4px; height: 62px; background: rgba(255,255,255,.13); border-radius: 10px; }
+  .vs {
+    border-radius: 10px; display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 20px; font-size: 27px; font-weight: 800; color: #fff;
+  }
+  .vs.ouro { background: #C99414; }   /* ouro clareado para firmar sobre o fundo escuro */
+  .vs.roxo { background: #7C3AED; }
+  .vq { width: 190px; font-size: 25px; font-weight: 600; color: rgba(255,255,255,.7); text-align: right; }
+  .vlegenda {
+    display: flex; gap: 34px; font-size: 23px; color: rgba(255,255,255,.6);
+    margin-top: 6px; padding-left: 102px;
+  }
+  .vlegenda span { display: inline-flex; align-items: center; gap: 11px; }
+  .vsw { width: 16px; height: 16px; border-radius: 4px; }
+  .vsw.roxo { background: #7C3AED; }
+  .vsw.ouro { background: #C99414; }
+
+  .fecho {
+    border-top: 2px solid rgba(255,255,255,.2); padding-top: 40px;
+    font-size: 40px; font-weight: 700; line-height: 1.28;
+  }
+  .fecho b { color: #C4A9FB; }
+</style>
+
+<div class="bg"></div>
+<div class="veu"></div>
+
+<!-- Recortes de marca, desligados por padrão. Para ligar, descomente as duas
+     linhas abaixo e troque o padding-top de .corpo para 210px.
+     Sem eles, a legenda de cores no gráfico vira obrigatória: sem logo, quem
+     recebe o card não tem contexto para saber o que é roxo e o que é ouro.
+<div class="chip tl"><img src="__ZAPAD__" alt="Zapad"></div>
+<div class="chip tr"><img src="__CLIENTE__" alt="__NOME_CLIENTE__"></div>
+-->
+
+<div class="corpo">
+
+  <div>
+    <p class="eyebrow">__ASSUNTO__ &middot; __PERIODO__</p>
+    <h1>__AFIRMACAO__</h1>
+  </div>
+
+  <div class="stats">
+    <div class="stat-l">__ROTULO__</div>
+    <div class="stat-l">__ROTULO__</div>
+    <div class="stat-l">__ROTULO__</div>
+
+    <div class="stat-v">__NUMERO__</div>
+    <div class="stat-v roxo">__NUMERO__</div>
+    <div class="stat-v">__NUMERO__</div>
+
+    <div class="stat-s">__LEGENDA__</div>
+    <div class="stat-s">__LEGENDA__</div>
+    <div class="stat-s">__LEGENDA__</div>
+  </div>
+
+  <div class="virada">
+    <div class="vl">
+      <span class="vk">__ANTES__</span>
+      <div class="vt"><div class="vs ouro" style="width:100%">__N__</div></div>
+      <span class="vq">__QUALIFICADOR__</span>
+    </div>
+    <div class="vl">
+      <span class="vk">__DEPOIS__</span>
+      <div class="vt">
+        <div class="vs roxo" style="width:97%">__N__</div>
+        <div class="vs ouro" style="width:3%"></div>
+      </div>
+      <span class="vq">__QUALIFICADOR__</span>
+    </div>
+    <div class="vlegenda">
+      <span><i class="vsw roxo"></i>__SERIE_ZAPAD__</span>
+      <span><i class="vsw ouro"></i>__SERIE_CLIENTE__</span>
+    </div>
+  </div>
+
+  <div class="fecho">
+    <b>__DESTAQUE__</b> __FECHO__
+  </div>
+
+</div>

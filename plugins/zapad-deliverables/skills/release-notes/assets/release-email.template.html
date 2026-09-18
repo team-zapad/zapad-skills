@@ -1,0 +1,191 @@
+<meta charset="utf-8">
+<title>__TITULO_CURTO__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+  /* Página apenas: moldura e botão. O bloco copiável usa estilo inline em cada
+     elemento, porque cliente de e-mail descarta <style> na colagem. */
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #f1eff7; color: #1A1A1F;
+    font-family: "Urbanist", ui-sans-serif, system-ui, -apple-system, sans-serif; line-height: 1.5;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 18px 70px; display: flex; flex-direction: column; gap: 18px; }
+  .barra-topo {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    background: #fff; border: 1px solid #E4DCF3; border-radius: 10px; padding: 14px 16px;
+  }
+  .dica { font-size: 13.5px; color: #55555F; }
+  .dica b { color: #1A1A1F; font-weight: 700; }
+  .btn {
+    appearance: none; border: none; background: #7C3AED; color: #fff;
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    padding: 10px 18px; border-radius: 7px; cursor: pointer;
+    transition: background .15s ease; white-space: nowrap;
+  }
+  .btn:hover { background: #6D28D9; }
+  .btn:focus-visible { outline: 2px solid #4C1D95; outline-offset: 2px; }
+  .btn[data-ok="1"] { background: #12885d; }
+  .moldura { background: #fff; border: 1px solid #E4DCF3; border-radius: 10px; padding: clamp(14px, 3vw, 26px); overflow-x: auto; }
+  .rodape-pagina { font-size: 12.5px; color: #8A8A96; padding: 0 4px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <div class="barra-topo">
+    <span class="dica">Clique em copiar e cole direto na janela de composição do Gmail. <b>As imagens vão junto.</b></span>
+    <button class="btn" id="copiar" type="button">Copiar para o e-mail</button>
+  </div>
+
+  <div class="moldura">
+
+    <!-- ===================== INÍCIO DO BLOCO COPIÁVEL =====================
+         Só tabela e estilo inline daqui para baixo. Sem classe, sem fonte
+         externa — é o que sobrevive ao ctrl+V no Gmail e no Outlook.
+         Diferente do template da brand-deliverables, este bloco TEM
+         imagem: as telas do produto são o conteúdo. Elas viram data URI pelo
+         inline_assets.py, então o Gmail as transforma em anexo na colagem e o
+         destinatário não precisa clicar em "exibir imagens". -->
+    <div id="bloco" style="max-width:600px;font-family:Urbanist,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#1A1A1F;line-height:1.5;">
+
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;max-width:600px;">
+
+        <!-- faixa de marca: mesh como imagem real, com bgcolor de reserva para
+             quem bloqueia imagem. Fundo em CSS não é confiável no Outlook. -->
+        <tr>
+          <td bgcolor="#4C1D95" style="background-color:#4C1D95;padding:0;line-height:0;border-radius:10px 10px 0 0;">
+            <img src="__MESH__" width="600" alt="" style="display:block;width:100%;max-width:600px;height:64px;object-fit:cover;border:0;border-radius:10px 10px 0 0;">
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:22px 0 0 0;">
+            <img src="__ZAPAD__" width="104" alt="Zapad" style="display:block;width:104px;height:auto;border:0;">
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:18px 0 0 0;">
+            <div style="height:4px;width:54px;background-color:#7C3AED;border-radius:2px;font-size:0;line-height:4px;">&nbsp;</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:14px 0 0 0;">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#8A8A96;">Novidades &middot; __PERIODO__</div>
+            <div style="font-size:26px;font-weight:700;letter-spacing:-0.5px;color:#1A1A1F;padding-top:6px;">__TITULO__</div>
+            <div style="font-size:15px;color:#55555F;padding-top:8px;">__ABERTURA__</div>
+          </td>
+        </tr>
+
+        <tr><td style="padding:20px 0 0 0;"><div style="height:1px;background-color:#E4DCF3;font-size:0;line-height:1px;">&nbsp;</div></td></tr>
+
+        <!-- ========== uma seção por capacidade; repita este bloco ==========
+             O slot de imagem fica COMENTADO de propósito: um placeholder
+             esquecido vai junto para o e-mail e chega como caixa quebrada.
+             Descomente só quando o arquivo existir.
+
+             NÃO passe a tela pelo fade_bottom.py neste template. O fade serve
+             para dissolver a tela num fundo da mesma cor; sobre este card
+             branco, uma tela de app escuro vira uma faixa cinza suja no lugar
+             de um encontro suave. Aqui a tela é um objeto contido: cantos
+             arredondados nos quatro lados e uma borda de 1px.
+             O fade só entra quando o card é escuro — veja o SKILL.md.        -->
+        <tr>
+          <td style="padding:24px 0 0 0;">
+            <div style="font-size:18px;font-weight:700;color:#1A1A1F;">__SECAO_TITULO__</div>
+            <div style="font-size:15px;color:#55555F;padding-top:7px;">__SECAO_TEXTO__</div>
+            <!-- <img src="__SECAO_IMAGEM__" width="600" alt="__SECAO_ALT__" style="display:block;width:100%;max-width:600px;height:auto;border:1px solid #E4DCF3;border-radius:8px;margin-top:14px;"> -->
+          </td>
+        </tr>
+
+        <!-- ========== lista curta de itens menores ========== -->
+        <tr><td style="padding:26px 0 0 0;"><div style="height:1px;background-color:#E4DCF3;font-size:0;line-height:1px;">&nbsp;</div></td></tr>
+
+        <tr>
+          <td style="padding:20px 0 0 0;">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#8A8A96;padding-bottom:10px;">E mais</div>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+              <tr>
+                <td width="14" valign="top" style="font-size:15px;line-height:1.5;color:#7C3AED;padding:0 0 9px 0;">&bull;</td>
+                <td style="font-size:15px;line-height:1.5;color:#55555F;padding:0 0 9px 0;">__ITEM__</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr><td style="padding:26px 0 0 0;"><div style="height:1px;background-color:#E4DCF3;font-size:0;line-height:1px;">&nbsp;</div></td></tr>
+
+        <tr>
+          <td style="padding:16px 0 0 0;">
+            <div style="font-size:13px;color:#8A8A96;">__RODAPE__</div>
+          </td>
+        </tr>
+
+      </table>
+
+    </div>
+    <!-- ====================== FIM DO BLOCO COPIÁVEL ====================== -->
+
+  </div>
+
+  <p class="rodape-pagina">
+    O botão copia só o bloco branco. Cole com Cmd+V (não Cmd+Shift+V, que remove a formatação e as imagens).
+  </p>
+
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('copiar');
+    var bloco = document.getElementById('bloco');
+    var rotulo = btn.textContent;
+
+    function feedback(texto, ok) {
+      btn.textContent = texto;
+      if (ok) { btn.setAttribute('data-ok', '1'); }
+      setTimeout(function () {
+        btn.textContent = rotulo;
+        btn.removeAttribute('data-ok');
+      }, 2400);
+    }
+
+    function selecionar() {
+      var sel = window.getSelection();
+      var faixa = document.createRange();
+      faixa.selectNodeContents(bloco);
+      sel.removeAllRanges();
+      sel.addRange(faixa);
+    }
+
+    btn.addEventListener('click', function () {
+      var html = bloco.outerHTML;
+      var texto = bloco.innerText;
+
+      if (navigator.clipboard && window.ClipboardItem) {
+        navigator.clipboard.write([
+          new ClipboardItem({
+            'text/html': new Blob([html], { type: 'text/html' }),
+            'text/plain': new Blob([texto], { type: 'text/plain' })
+          })
+        ]).then(function () {
+          feedback('Copiado', true);
+        }).catch(function () {
+          selecionar();
+          feedback('Selecionado — use Cmd+C', false);
+        });
+        return;
+      }
+
+      selecionar();
+      try {
+        feedback(document.execCommand('copy') ? 'Copiado' : 'Selecionado — use Cmd+C', true);
+      } catch (e) {
+        feedback('Selecionado — use Cmd+C', false);
+      }
+    });
+  })();
+</script>
