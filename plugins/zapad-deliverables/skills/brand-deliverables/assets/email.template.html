@@ -1,0 +1,234 @@
+<title>__TITULO_CURTO__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+  /* Estilos APENAS da página (moldura e botão). O bloco copiável usa estilo
+     inline em cada elemento, porque cliente de e-mail descarta <style> na colagem. */
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #f1eff7; color: #1A1A1F;
+    font-family: "Urbanist", ui-sans-serif, system-ui, -apple-system, sans-serif; line-height: 1.5;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 18px 70px; display: flex; flex-direction: column; gap: 18px; }
+  .barra-topo {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    background: #fff; border: 1px solid #E4DCF3; border-radius: 10px; padding: 14px 16px;
+  }
+  .dica { font-size: 13.5px; color: #55555F; }
+  .dica b { color: #1A1A1F; font-weight: 700; }
+  .btn {
+    appearance: none; border: none; background: #7C3AED; color: #fff;
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    padding: 10px 18px; border-radius: 7px; cursor: pointer;
+    transition: background .15s ease; white-space: nowrap;
+  }
+  .btn:hover { background: #6D28D9; }
+  .btn:focus-visible { outline: 2px solid #4C1D95; outline-offset: 2px; }
+  .btn[data-ok="1"] { background: #12885d; }
+  .moldura { background: #fff; border: 1px solid #E4DCF3; border-radius: 10px; padding: clamp(14px, 3vw, 26px); overflow-x: auto; }
+  .rodape-pagina { font-size: 12.5px; color: #8A8A96; padding: 0 4px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <div class="barra-topo">
+    <span class="dica">Clique em copiar e cole direto no corpo do e-mail. <b>Formatação preservada.</b></span>
+    <button class="btn" id="copiar" type="button">Copiar para o e-mail</button>
+  </div>
+
+  <div class="moldura">
+
+    <!-- ===================== INÍCIO DO BLOCO COPIÁVEL =====================
+         Só tabela e estilo inline daqui para baixo. Sem classe, sem imagem,
+         sem fonte externa — é o que sobrevive ao ctrl+V no Gmail e no Outlook. -->
+    <div id="bloco" style="max-width:600px;font-family:Urbanist,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#1A1A1F;line-height:1.5;">
+
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;max-width:600px;">
+
+        <tr>
+          <td style="padding:0 0 4px 0;">
+            <div style="height:4px;width:54px;background-color:#7C3AED;border-radius:2px;font-size:0;line-height:4px;">&nbsp;</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:16px 0 0 0;">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#8A8A96;">Zapad &middot; __NOME_CLIENTE__</div>
+            <div style="font-size:26px;font-weight:700;letter-spacing:-0.5px;color:#1A1A1F;padding-top:6px;">__TITULO__</div>
+            <div style="font-size:15px;color:#55555F;padding-top:8px;">__ABERTURA__</div>
+          </td>
+        </tr>
+
+        <tr><td style="padding:20px 0 0 0;"><div style="height:1px;background-color:#E4DCF3;font-size:0;line-height:1px;">&nbsp;</div></td></tr>
+
+        <!-- três números lado a lado -->
+        <tr>
+          <td style="padding:18px 0 0 0;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+              <tr>
+                <td width="33%" valign="top" style="padding:0 10px 0 0;">
+                  <div style="font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#8A8A96;">__ROTULO__</div>
+                  <div style="font-size:30px;font-weight:700;letter-spacing:-1px;color:#1A1A1F;padding-top:3px;">__NUMERO__</div>
+                  <div style="font-size:13px;color:#55555F;">__LEGENDA__</div>
+                </td>
+                <td width="33%" valign="top" style="padding:0 10px;">
+                  <div style="font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#8A8A96;">__ROTULO__</div>
+                  <div style="font-size:30px;font-weight:700;letter-spacing:-1px;color:#7C3AED;padding-top:3px;">__NUMERO__</div>
+                  <div style="font-size:13px;color:#55555F;">__LEGENDA__</div>
+                </td>
+                <td width="33%" valign="top" style="padding:0 0 0 10px;">
+                  <div style="font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#8A8A96;">__ROTULO__</div>
+                  <div style="font-size:30px;font-weight:700;letter-spacing:-1px;color:#1A1A1F;padding-top:3px;">__NUMERO__</div>
+                  <div style="font-size:13px;color:#55555F;">__LEGENDA__</div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- barra comparativa: célula colorida com largura percentual -->
+        <tr>
+          <td style="padding:26px 0 0 0;">
+            <div style="font-size:16px;font-weight:700;color:#1A1A1F;padding-bottom:12px;">__AFIRMACAO__</div>
+
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+              <tr>
+                <td width="42" style="font-size:12.5px;font-weight:600;color:#55555F;padding:0 10px 7px 0;">__ANTES__</td>
+                <td style="padding:0 10px 7px 0;">
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;background-color:#EDE6FC;border-radius:4px;">
+                    <tr>
+                      <td width="100%" bgcolor="#B8860B" style="background-color:#B8860B;border-radius:4px;height:22px;font-size:11px;font-weight:700;color:#ffffff;text-align:right;padding:4px 8px;">__N__</td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="96" style="font-size:12px;color:#55555F;text-align:right;padding:0 0 7px 0;white-space:nowrap;">__QUALIFICADOR__</td>
+              </tr>
+              <tr>
+                <td width="42" style="font-size:12.5px;font-weight:600;color:#55555F;padding:0 10px 0 0;">__DEPOIS__</td>
+                <td style="padding:0 10px 0 0;">
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;background-color:#EDE6FC;border-radius:4px;">
+                    <tr>
+                      <td width="97%" bgcolor="#7C3AED" style="background-color:#7C3AED;border-radius:4px;height:22px;font-size:11px;font-weight:700;color:#ffffff;text-align:right;padding:4px 8px;">__N__</td>
+                      <td width="3%" bgcolor="#B8860B" style="background-color:#B8860B;border-radius:4px;height:22px;font-size:0;line-height:22px;">&nbsp;</td>
+                    </tr>
+                  </table>
+                </td>
+                <td width="96" style="font-size:12px;color:#55555F;text-align:right;white-space:nowrap;">__QUALIFICADOR__</td>
+              </tr>
+            </table>
+
+            <div style="font-size:12.5px;color:#8A8A96;padding-top:10px;">
+              <span style="color:#7C3AED;font-weight:700;">&#9632;</span> __SERIE_ZAPAD__ &nbsp;&nbsp;
+              <span style="color:#B8860B;font-weight:700;">&#9632;</span> __SERIE_CLIENTE__
+            </div>
+          </td>
+        </tr>
+
+        <!-- caixa de conclusão -->
+        <tr>
+          <td style="padding:24px 0 0 0;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;border:1px solid #E4DCF3;border-radius:8px;">
+              <tr>
+                <td style="padding:16px 18px;">
+                  <div style="font-size:15px;color:#55555F;">__CONCLUSAO__</div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- próximos passos -->
+        <tr>
+          <td style="padding:24px 0 0 0;">
+            <div style="font-size:16px;font-weight:700;color:#1A1A1F;padding-bottom:12px;">Próximos passos</div>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+              <tr>
+                <td width="26" valign="top" style="padding:0 12px 12px 0;">
+                  <div style="width:22px;height:22px;background-color:#7C3AED;border-radius:11px;color:#ffffff;font-size:12px;font-weight:700;text-align:center;line-height:22px;">1</div>
+                </td>
+                <td valign="top" style="padding:0 0 12px 0;">
+                  <div style="font-size:15px;font-weight:700;color:#1A1A1F;">__PASSO__</div>
+                  <div style="font-size:14px;color:#55555F;">__DETALHE__</div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr><td style="padding:24px 0 0 0;"><div style="height:1px;background-color:#E4DCF3;font-size:0;line-height:1px;">&nbsp;</div></td></tr>
+
+        <tr>
+          <td style="padding:14px 0 0 0;">
+            <div style="font-size:13px;color:#8A8A96;">
+              __CHAMADA_DO_LINK__
+              <a href="__URL_DECK__" style="color:#7C3AED;font-weight:700;text-decoration:underline;">ver a apresentação</a>
+            </div>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+    <!-- ====================== FIM DO BLOCO COPIÁVEL ====================== -->
+
+  </div>
+
+  <p class="rodape-pagina">O bloco acima é escrito em tabelas com estilo inline, o formato que sobrevive à colagem em Gmail, Outlook e Apple Mail. Sem imagens e sem fonte externa de propósito: cliente de e-mail bloqueia as duas por padrão, e o texto continua legível.</p>
+
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('copiar');
+    var bloco = document.getElementById('bloco');
+    var rotulo = btn.textContent;
+    var timer;
+
+    function feedback(texto, ok) {
+      btn.textContent = texto;
+      btn.setAttribute('data-ok', ok ? '1' : '0');
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        btn.textContent = rotulo;
+        btn.removeAttribute('data-ok');
+      }, 2400);
+    }
+
+    function selecionar() {
+      var sel = window.getSelection();
+      var faixa = document.createRange();
+      faixa.selectNodeContents(bloco);
+      sel.removeAllRanges();
+      sel.addRange(faixa);
+    }
+
+    btn.addEventListener('click', function () {
+      var html = bloco.outerHTML;
+      var texto = bloco.innerText;
+
+      if (navigator.clipboard && window.ClipboardItem) {
+        navigator.clipboard.write([
+          new ClipboardItem({
+            'text/html': new Blob([html], { type: 'text/html' }),
+            'text/plain': new Blob([texto], { type: 'text/plain' })
+          })
+        ]).then(function () {
+          feedback('Copiado', true);
+        }).catch(function () {
+          selecionar();
+          feedback('Selecionado — use Cmd+C', false);
+        });
+        return;
+      }
+
+      selecionar();
+      try {
+        feedback(document.execCommand('copy') ? 'Copiado' : 'Selecionado — use Cmd+C', true);
+      } catch (e) {
+        feedback('Selecionado — use Cmd+C', false);
+      }
+    });
+  })();
+</script>

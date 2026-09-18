@@ -1,0 +1,27 @@
+{
+  "skill_name": "release-notes",
+  "notes": "Live screenshot capture is intentionally not covered by an eval: it needs the dev server plus a temporary auth route and dev-DB seeding, which several agents running in parallel would trample. Those steps are verified by hand.",
+  "evals": [
+    {
+      "id": 0,
+      "name": "changelog-triage-and-copy",
+      "prompt": "can you put together release notes for the last 7 days of work on this repo? something i can drop into an email to our users. i'll handle screenshots myself afterwards so don't worry about those, just get me the html and the wording right",
+      "expected_output": "An email-ready HTML fragment (tables + inline styles, no <style> block, ~600px) written in Brazilian Portuguese, covering only user-facing changes grouped by capability, with merges/refactors/tests/ADRs excluded and one or two sentences per item.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "images-broken-in-gmail",
+      "prompt": "i made this release notes email (notes.html in this folder) and it looks perfect in chrome but when i copy paste it into gmail all the screenshots come through as empty boxes. can you fix it so the images actually show up? i'm pasting it by hand into a gmail compose window, not using mailchimp or anything",
+      "expected_output": "Images embedded as base64 data URIs in a self-contained HTML file. Should identify that relative paths are unreachable by Gmail's image proxy as the cause. Ideally reuses brand-deliverables/scripts/inline_assets.py rather than writing a new inliner, and may add a copy-button wrapper.",
+      "files": ["fixtures/broken-draft/"]
+    },
+    {
+      "id": 2,
+      "name": "fade-screenshots-into-card",
+      "prompt": "these two screenshots (in raw-shots/) have a hard edge at the bottom that looks bad pasted onto our dark email card. the card background is #13161e. can you make them fade out into it at the bottom? needs to survive outlook and gmail",
+      "expected_output": "Two new image files with a transparent-to-#13161e gradient composited into the pixels and flattened. Must explain that a CSS gradient or pseudo-element would be stripped by email clients, which is why it is baked in. Should mention dropping the img border / squaring bottom corners.",
+      "files": ["fixtures/raw-shots/"]
+    }
+  ]
+}

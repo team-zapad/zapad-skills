@@ -1,0 +1,17 @@
+{
+  "name": "zapad-deliverables",
+  "description": "Everything a Zapad client actually sees: release notes illustrated with real screenshots of the running app, and decks, pasteable emails and social cards in the Zapad visual identity. Covers triaging commits for user-facing impact, capturing screenshots without typing credentials, and getting images to survive the trip into an email client.",
+  "version": "1.0.0",
+  "author": {
+    "name": "team-zapad"
+  },
+  "keywords": [
+    "release-notes",
+    "changelog",
+    "brand",
+    "email",
+    "deck",
+    "screenshots",
+    "client-facing"
+  ]
+}

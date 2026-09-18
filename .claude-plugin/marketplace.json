@@ -27,6 +27,11 @@
       "name": "zapad-design-flow",
       "source": "./plugins/zapad-design-flow",
       "description": "The git and project workflow for designers, in Portuguese: set up the machine, create and run high-fidelity prototypes in Vite + React + Tailwind, and the full branch, commit, Pull Request and rescue cycle, with guards for people who do not know git."
+    },
+    {
+      "name": "zapad-deliverables",
+      "source": "./plugins/zapad-deliverables",
+      "description": "Client-facing deliverables: release notes illustrated with real screenshots of the running app, plus decks, pasteable emails and social cards in the Zapad visual identity. Two skills that share one set of email mechanics."
     }
   ]
 }

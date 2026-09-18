@@ -17,6 +17,7 @@ Then install the skill into any project:
 /plugin install zapad-js-stack
 /plugin install zapad-laravel-backend
 /plugin install zapad-design-flow
+/plugin install zapad-deliverables
 ```
 
 Update later with `/plugin marketplace update zapad-skills`.
@@ -163,6 +164,35 @@ Discord message with the technical state attached.
 
 See [`plugins/zapad-design-flow/`](plugins/zapad-design-flow/).
 
+### `zapad-deliverables`
+
+Everything a Zapad client actually sees. Two skills that split on a single question — *what
+changed?* versus *was it worth it?* — and deliberately do not borrow each other's register, because
+a changelog that argues its own value gets trusted less and a value deck that lists commits fails to
+make its case.
+
+| | |
+|---|---|
+| `release-notes` | Turns git history into notes a customer would read, illustrated with real screenshots of the running app |
+| `brand-deliverables` | Decks, pasteable email summaries and WhatsApp/social cards in the Zapad visual identity |
+
+They share the mechanics of email HTML — tables with inline styles, what survives a paste into
+Gmail, the copy button, `scripts/inline_assets.py` — documented once in
+[`brand-deliverables/references/email.md`](plugins/zapad-deliverables/skills/brand-deliverables/references/email.md)
+and reused by both. That shared file is why they ship as one plugin rather than two.
+
+What `release-notes` is mostly about is the judgment before the writing: most commits are invisible
+to users and a few unremarkable-looking ones are the headline, so it reads full commit bodies rather
+than subject lines, groups by user-visible capability rather than by commit, and holds a release to
+roughly 500–600 words. It also **never types a password** to reach a screen worth capturing — it
+asks the framework for a session through a temporary local-only route, and reverts it.
+
+Per-project values (how to get a session, which tenant holds the data, the card colour, where the
+logo lives) belong in the project's own repo, not in this plugin — the skill says so and gives the
+headings to use.
+
+See [`plugins/zapad-deliverables/skills/`](plugins/zapad-deliverables/skills/).
+
 ## Repo layout
 
 ```
@@ -205,4 +235,18 @@ plugins/
       socorro/references/casos.md
       atualizar/SKILL.md
       preparar-entrega/SKILL.md
+  zapad-deliverables/
+    .claude-plugin/plugin.json      # plugin manifest
+    skills/
+      release-notes/
+        SKILL.md
+        references/capture.md       # screenshots without typing credentials
+        assets/                     # the branded release email template
+        scripts/fade_bottom.py      # bakes a bottom fade into a screenshot
+        evals/evals.json
+      brand-deliverables/
+        SKILL.md
+        references/                 # deck.md, email.md, card.md
+        assets/                     # templates + brand masters
+        scripts/inline_assets.py    # shared by both skills
 ```
